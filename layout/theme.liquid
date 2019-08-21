@@ -38,6 +38,9 @@
 
   {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
 
+  <!-- New Added CSS file -->
+  {{ 'new-style.scss.css' | asset_url | stylesheet_tag }}
+
   <script>
     var theme = {
       breakpoints: {
@@ -93,6 +96,9 @@
   <script src="{{ 'lazysizes.js' | asset_url }}" async="async"></script>
   <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  
+  <!-- New Added JS file -->
+  <script src="{{ 'new-js.js' | asset_url }}" defer="defer"></script>
 
   {{ content_for_header }}
 </head>
