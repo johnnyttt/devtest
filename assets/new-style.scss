@@ -9,12 +9,19 @@ $bdr_color_grey:#e3e3e3;  //For Button, Link, Feature Text use
     .site-header, .site-header__mobile-nav{
         background-color: $bg_color;
     }
+    .site-header__icon svg {
+        height: 30px;
+        width: 30px;
+        vertical-align: middle;
+    }
+    
 }
 
 #ProductSection-product-template{
         background-color: $bg_color;
 
 }
+
 //when theme setting is Logo Align Centre
 .site-header.logo--center{
     padding: 10px!important;
@@ -22,6 +29,8 @@ $bdr_color_grey:#e3e3e3;  //For Button, Link, Feature Text use
         padding-bottom: 0px;
         text-align: left;
         margin: 25px;
+        font-weight: 600;
+        font-size: 18px;
     }
     form.search-header {
         max-width: 180px;
