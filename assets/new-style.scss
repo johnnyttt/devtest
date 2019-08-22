@@ -17,10 +17,67 @@ $bdr_color_grey:#e3e3e3;  //For Button, Link, Feature Text use
     
 }
 
-#ProductSection-product-template{
-        background-color: $bg_color;
+#MainContent{
+    background-color: $bg_color;
+}
+
+#shopify-section-product-template{
+        // background-color: $bg_color;
+        
+        //Left Section of product page
+        .page-width{
+            max-width: 100%;
+        }
+        .thumbnails-wrapper ul{
+            display: flex;
+            flex-direction: column;
+        }
+        .product-featured-img{
+            max-width: initial!important;
+            max-height: initial!important;        
+        }
+        @media screen and (min-width: 750px){
+            .product-single__photo-wrapper{
+                max-width: 87.5%!important;
+                max-height: initial!important;        
+            }
+        }
+
+        //Right Section of product page
+        .product-single__title {
+            font-size: 4rem;
+            color: #000000;
+        }
+        .price__sale {
+            color:$main_color_black;
+        }
+        .product__price, .featured-product__price {
+            font-size: 2.2rem;
+        }
+        .price-item__label{
+            display:none;
+        }
+        .price-item__label-new{
+            margin: 10px;
+            transform: skew(-20deg);
+            background: #ff6a00;
+            color: white;
+            width: 140px;
+            padding: 4px 19px;
+            font-size: 1.4em;
+            display: table;
+            border-radius: 5px;
+        }
+        .price-item__label-new div{
+            transform: skew(20deg);
+        }
+        .product-form-product-template .product-form__item{
+            flex:100%;
+        }
+
 
 }
+
 
 //when theme setting is Logo Align Centre
 .site-header.logo--center{

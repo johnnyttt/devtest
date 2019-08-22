@@ -26,10 +26,12 @@
       {%- assign product_description_width = 'medium-up--one-half' -%}
       {%- assign product_thumbnail_width = 'medium-up--one-quarter' -%}
       {%- assign height = 530 -%}
-    {% when 'large' %}
+    {% when 'large' %} <!--I will make template change under Image Size Large-->
       {%- assign product_image_width = 'medium-up--two-thirds' -%}
       {%- assign product_description_width = 'medium-up--one-third' -%}
-      {%- assign product_thumbnail_width = 'medium-up--one-fifth' -%}
+      {%- assign product_thumbnail_width = '' -%}
+      {%- assign product_thumbnail_wrapper_width = 'grid__item medium-up--one-eighth' -%}
+      {%- assign product_image_active_width = 'grid__item medium-up--seven-eighths'%}
       {%- assign height = 720 -%}
     {% when 'full' %}
       {%- assign product_image_width = '' -%}
@@ -41,6 +43,44 @@
 
   <div class="grid product-single{% if section.settings.enable_payment_button %} product-single--{{ section.settings.image_size }}-image{% endif %}">
     <div class="grid__item product-single__photos {{ product_image_width }}{% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}">
+      
+      <!--Move thumbnail start -->
+      {% if product.images.size > 1 %}
+      {% if product.images.size > 3 %}
+        {%- assign enable_thumbnail_slides = true -%}
+      {% endif %}
+
+      <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active{% endif %} {{product_thumbnail_wrapper_width}}">
+        {% if enable_thumbnail_slides == true %}
+          <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__prev thumbnails-slider__prev--{{ section.id }}">
+            {% include 'icon-chevron-left' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+          </button>
+        {% endif %}
+        <ul class="grid grid--uniform product-single__thumbnails product-single__thumbnails-{{ section.id }}">
+          {% for image in product.images %}
+            <li class="grid__item {{ product_thumbnail_width }} product-single__thumbnails-item js">
+              <a href="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"
+                class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                data-thumbnail-id="{{ image.id }}"
+                {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+                  <img class="product-single__thumbnail-image" src="{{ image.src | img_url: '110x110', scale: 2 }}" alt="{{ 'sections.featured_product.gallery_thumbnail_alt' | t: imageAlt: image.alt | escape }}">
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if enable_thumbnail_slides == true %}
+          <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__next thumbnails-slider__next--{{ section.id }}">
+            {% include 'icon-chevron-right' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+          </button>
+        {% endif %}
+      </div>
+      {% endif %}
+      <!--Move thumbnail end -->      
+      
+      
+      
       {%- assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image -%}
       {% for image in product.images %}
         {% capture img_id %}FeaturedImage-{{ section.id }}-{{ image.id }}{% endcapture %}
@@ -51,7 +91,7 @@
 
         {% include 'image-style' with small_style: true, width: height, height: height, wrapper_id: img_wrapper_id, img_id: img_id %}
 
-        <div id="{{ img_wrapper_id }}" class="product-single__photo-wrapper js">
+        <div id="{{ img_wrapper_id }}" class="product-single__photo-wrapper {{product_image_active_width}} js">
           <div
           id="{{ zoom_img_id }}"
           style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%;"
@@ -59,7 +99,7 @@
           data-image-id="{{ image.id }}"
           {% if enable_zoom %} data-zoom="{{ image | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
             <img id="{{ img_id }}"
-                 class="feature-row__image {{ img_class }} lazyload{% unless featured_image == image %} lazypreload{% endunless %}"
+                 class="feature-row__image {{ img_class }} lazyload{% unless featured_image == image %} lazypreload{% endunless %} new"
                  src="{{ image | img_url: '300x300' }}"
                  data-src="{{ img_url }}"
                  data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
@@ -76,43 +116,14 @@
         <img src="{{ featured_image | img_url: product_image_size, scale: product_image_scale }}" alt="{{ featured_image.alt }}" id="FeaturedImage-{{ section.id }}" class="product-featured-img" style="max-width: {{ height }}px;">
       </noscript>
 
-      {% if product.images.size > 1 %}
-        {% if product.images.size > 3 %}
-          {%- assign enable_thumbnail_slides = true -%}
-        {% endif %}
 
-        <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active{% endif %}">
-          {% if enable_thumbnail_slides == true %}
-            <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__prev thumbnails-slider__prev--{{ section.id }}">
-              {% include 'icon-chevron-left' %}
-              <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
-            </button>
-          {% endif %}
-          <ul class="grid grid--uniform product-single__thumbnails product-single__thumbnails-{{ section.id }}">
-            {% for image in product.images %}
-              <li class="grid__item {{ product_thumbnail_width }} product-single__thumbnails-item js">
-                <a href="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"
-                   class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
-                   data-thumbnail-id="{{ image.id }}"
-                   {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
-                     <img class="product-single__thumbnail-image" src="{{ image.src | img_url: '110x110', scale: 2 }}" alt="{{ 'sections.featured_product.gallery_thumbnail_alt' | t: imageAlt: image.alt | escape }}">
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-          {% if enable_thumbnail_slides == true %}
-            <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__next thumbnails-slider__next--{{ section.id }}">
-              {% include 'icon-chevron-right' %}
-              <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
-            </button>
-          {% endif %}
-        </div>
-      {% endif %}
     </div>
 
     <div class="grid__item {{ product_description_width }}">
       <div class="product-single__meta">
-
+        <div class="price-item__label-new">
+          <div>{{ 'products.product.on_sale' | t }}</div>
+        </div>
         <h1 class="product-single__title">{{ product.title }}</h1>
 
           <div class="product__price">
@@ -137,16 +148,30 @@
           {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
             {% unless product.has_only_default_variant %}
               {% for option in product.options_with_values %}
-                <div class="selector-wrapper js product-form__item">
-                  <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
-                    {{ option.name }}
-                  </label>
-                  <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
-                    {% for value in option.values %}
-                      <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
+                <!--IF option name is color, it will enable the Color Swatch Style rather than drop down style-->
+                {% if option.name =="color" %}
+                  <div class="selector-wrapper js product-form__item">
+                      <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                        {{ option.name }}
+                      </label>
+                      <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                        {% for value in option.values %}
+                          <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                {% else%}
+                  <div class="selector-wrapper js product-form__item">
+                    <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                      {{ option.name }}
+                    </label>
+                    <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                      {% for value in option.values %}
+                        <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {%endif%}
               {% endfor %}
             {% endunless %}
 
