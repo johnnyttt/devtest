@@ -1,13 +1,16 @@
 $main_color_black:#000000; //For all text
 $bg_color:#f7f7f7; //For Background use 
-$bt_color:#ff6a00; //For Button, Link, Feature Text use 
+$main_color_orange:#ff6a00; //For Button, Link, Feature Text use 
 $bdr_color_grey:#e3e3e3;  //For Button, Link, Feature Text use
 $break_point_large:1500px;
 $break_point_medium:750px;
 $break_point_small:480px;
+
 body{
   color:$main_color_black;
 }
+
+//Header Style - General
 #shopify-section-header{
     border-bottom: 1px solid $main_color_black;
 
@@ -22,16 +25,46 @@ body{
     
 }
 
+//Header Style - When theme setting is Logo Align Centre
+.site-header.logo--center{
+  padding: 10px!important;
+  ul.site-nav{
+      padding-bottom: 0px;
+      text-align: left;
+      margin: 25px;
+      font-weight: 600;
+      font-size: 18px;
+  }
+  form.search-header {
+      max-width: 180px;
+      .search-header__input {
+          outline: none;
+          border-color: #949494;
+          cursor: auto;
+          border-radius: 20px;
+          min-height: 38px;
+      }
+  }
+
+}
+
+//Main Div Style
 #MainContent{
     background-color: $bg_color;
 }
 
+//Product Page Style
 #shopify-section-product-template{
-        // background-color: $bg_color;
         
-        //Left Section of product page
+        //Left Section of product page, including Images, Thumbnail etc.
         .page-width{
             max-width: 100%;
+        }
+        .product-single__thumbnail-image {
+            border: 2px solid $bdr_color_grey;
+        }
+        .active-thumb .product-single__thumbnail-image {
+            border-color:$main_color_black;
         }
         @media screen and (min-width: $break_point_medium){
             .product-single__photo-wrapper{
@@ -48,13 +81,55 @@ body{
             }
         }
 
-        //Right Section of product page
-        .product-single__title {
-            color: #000000;
+        //Right Section of product page, including Title, Price, Option etc.
+        .product-single__title, .product-subtitle *{
+            color:$main_color_black;
         }
         .price__sale {
             color:$main_color_black;
         }
+        .wishlist-div{
+          position: relative;
+          svg{
+            max-width: 38px;
+            position: absolute;
+            right: 15px;
+            top: 25px;
+          }
+        }
+        .product-form__cart-submit:not([disabled]):hover, .product-form__cart-submit:focus {
+            border:2px solid $main_color_orange;
+            color:$main_color_orange;
+            background: #ffffff;
+        }
+        .product-form__cart-submit{
+            background-color:$main_color_orange;
+            color:white;
+            min-height: 52px; 
+        }
+        .size-guide{
+            text-align: right;
+            color:#999999;
+            text-decoration: underline;
+        }
+        .delivery-option{
+            padding-left: 5px;
+            padding-right: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+            .btn{
+              background-color: white;
+              color:$main_color_black;
+              border:2px solid $main_color_black;
+              width: 100%;
+            }
+            svg{
+              vertical-align: middle;
+              width: 50px;
+              height: 30px;
+            }
+        }
+
         @media screen and (min-width: $break_point_large){
             .product-single__title {
                 font-size: 4rem;            
@@ -69,7 +144,7 @@ body{
         .price-item__label-new{
             margin: 10px;
             transform: skew(-20deg);
-            background: #ff6a00;
+            background: $main_color_orange;
             color: white;
             width: 140px;
             padding: 4px 19px;
@@ -97,37 +172,81 @@ body{
 
 }
 
-
-// when theme setting is Logo Align Centre
-.site-header.logo--center{
-    padding: 10px!important;
-    ul.site-nav{
-        padding-bottom: 0px;
-        text-align: left;
-        margin: 25px;
-        font-weight: 600;
-        font-size: 18px;
+// Product Page, Tabs content Style
+.product-desc-tabs{
+    ul.tabs {
+      border-bottom: 1px solid #DDDDDD;
+      display: block;
+      margin: 0 0 20px;
+      padding: 0;
     }
-    form.search-header {
-        max-width: 180px;
-        .search-header__input {
-            outline: none;
-            border-color: #949494;
-            cursor: auto;
-            border-radius: 20px;
-            min-height: 38px;
-        }
+    ul.tabs li {
+      display: block;
+      float: left;
+      height: 30px;
+      margin-bottom: 0;
+      padding: 0;
+      width: auto;
     }
+    ul.tabs li a {
+      -moz-border-bottom-colors: none;
+      -moz-border-image: none;
+      -moz-border-left-colors: none;
+      -moz-border-right-colors: none;
+      -moz-border-top-colors: none;
+      background: none repeat scroll 0 0 #F5F5F5;
+      border-color: #DDDDDD !important;
+      border-style: solid;
+      border-width: 1px 1px 0 1px;
+      display: block;
+      font-size: 13px;
+      height: 29px;
+      line-height: 30px;
+      margin: 0;
+      padding: 0 20px;
+      text-decoration: none;
+      width: auto;
+      color: #303030;
+      border-bottom:none !important;
+    }
+    ul.tabs li a.active {
+      background: none repeat scroll 0 0 #FFFFFF;
+      border-left-width: 1px;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+      color: #111111;
+      height: 30px;
+      margin: 0 0 0 -1px;
+      padding-top: 4px;
+      position: relative;
+      top: -4px;
+    }
+    ul.tabs li:first-child a.active {
+      margin-left: 0;
+    }
+    ul.tabs li:first-child a {
+      border-top-left-radius: 2px;
+      border-width: 1px 1px 0;
+    }
+    ul.tabs li:last-child a {
+      border-top-right-radius: 2px;
+    }
+    ul.tabs:before, ul.tabs:after {
+      content: " ";
+      display: block;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      width: 0;
+    }
+    ul.tabs:after {
+      clear: both;
+    }
+  }
 
-}
 
 
-
-//Color Swatch CSS
-/* 
-   Swatches Styles
-*/
-
+//Product Page, Color Option Selector - Swatches Styles
 {% assign width = '50px' %}
 {% assign height = '50px' %}
 .swatch { 
