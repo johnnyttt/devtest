@@ -4681,6 +4681,8 @@ theme.Product = (function() {
       var variant = evt.variant;
 
       if (variant) {
+
+
         if (variant.available) {
           this.$addToCart
             .removeAttr('aria-disabled')

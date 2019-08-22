@@ -125,7 +125,8 @@
           <div>{{ 'products.product.on_sale' | t }}</div>
         </div>
         <h1 class="product-single__title">{{ product.title }}</h1>
-
+        {% assign subtitle = subtitle | default: product.description | split: "<h6>" | first %}
+        {{ subtitle }}
           <div class="product__price">
             {% include 'product-price', variant: current_variant %}
           </div>
@@ -148,31 +149,25 @@
           {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
             {% unless product.has_only_default_variant %}
               {% for option in product.options_with_values %}
-                <!--IF option name is color, it will enable the Color Swatch Style rather than drop down style-->
-                {% if option.name =="color" %}
-                  <div class="selector-wrapper js product-form__item">
-                      <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
-                        {{ option.name }}
-                      </label>
-                      <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
-                        {% for value in option.values %}
-                          <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
-                        {% endfor %}
-                      </select>
-                  </div>
-                {% else%}
-                  <div class="selector-wrapper js product-form__item">
-                    <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+
+                  <div class="selector-wrapper js product-form__item " >
+                    <!-- <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
                       {{ option.name }}
-                    </label>
-                    <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                    </label> -->
+                    <select {% if option.name == 'Color'%}{{"disabled"}}{% endif %} class="single-option-selector single-option-selector-{{ section.id }} product-form__input {% if option.name == 'Color'%}color-option-label{% endif %}"  id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
                       {% for value in option.values %}
                         <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
                       {% endfor %}
                     </select>
+                    <!--IF option name is color, it will enable the Color Swatch Style rather than drop down style-->
+                    {% if option.name == 'Color' and product.available and product.variants.size > 1 %}
+                      {% include 'swatch' with 'Color' %}
+                    {% endif %}
+
                   </div>
-                {%endif%}
+
               {% endfor %}
+                                
             {% endunless %}
 
             <select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants no-js">
@@ -240,15 +235,17 @@
           aria-hidden="true"
         >{{ 'products.product.loader_label' | t }}</p>
 
-        <div class="product-single__description rte">
-          {{ product.description }}
-        </div>
 
         {% if section.settings.show_share_buttons %}
           {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
         {% endif %}
     </div>
   </div>
+
+  <div class="product-single__description rte">
+      {% include 'tabbed-description' %}
+  </div>
+
 </div>
 
 {% unless product == empty %}

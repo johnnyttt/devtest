@@ -99,7 +99,8 @@
   
   <!-- New Added JS file -->
   <script src="{{ 'new-js.js' | asset_url }}" defer="defer"></script>
-
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+  
   {{ content_for_header }}
 </head>
 
@@ -151,5 +152,20 @@
     <li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
     <li id="a11y-selection-message">{{ 'general.accessibility.selection_help' | t }}</li>
   </ul>
+
+  <script>
+      jQuery(function() {
+        jQuery('.swatch :radio').change(function() {
+          var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+          var optionValue = jQuery(this).val();
+          jQuery(this)
+            .closest('form')
+            .find('.single-option-selector')
+            .eq(optionIndex)
+            .val(optionValue)
+            .trigger('change');
+        });
+      });
+      </script>  
 </body>
 </html>
