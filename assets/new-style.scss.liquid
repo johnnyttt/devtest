@@ -20,35 +20,6 @@ body{
     }
   }
 }
-// h1{
-//   font-family: acumin-pro-extra-condensed, sans-serif;
-//   font-style: normal;
-//   font-weight: 700;
-//   font-size:120px;
-//   letter-spacing:-0.75px;
-//   line-height:100px;
-// }
-// h2{
-//   font-family: acumin-pro-extra-condensed, sans-serif;
-//   font-style: normal;
-//   font-weight: 700;
-//   font-family: AcuminProExtraCond-Bold;
-//   font-size:60px;
-//   letter-spacing:0;
-//   line-height:50px;
-// }
-// h3{
-//   font-family: NeueHaasUnicaW1G-Bold;
-//   font-size:40px;
-//   letter-spacing:0;
-//   line-height:48px;
-// }
-
-
-// @media (max-width : $break_point_small) {
-
-// }
-
 
 //Header Style - General
 #shopify-section-header{
@@ -101,12 +72,16 @@ body{
     display:block;
   }
   @media screen and (max-width: $break_point_medium){
-    .site-header__search.site-header__icon{
-      button{
-        display:contents;
-      }
-      input{
-        display:none;
+    .site-header__icons{
+      padding-right: 2px;
+      .site-header__icon{
+        padding: 2px;
+        form button{
+          display:contents;
+        }
+        form input{
+          display:none;
+        }
       }
     }
   }
