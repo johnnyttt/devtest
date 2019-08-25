@@ -40,6 +40,8 @@
 
   <!-- New Added CSS file -->
   {{ 'new-style.scss.css' | asset_url | stylesheet_tag }}
+  <!-- New Added Font file -->
+  <link rel="stylesheet" href="https://use.typekit.net/lah5qxt.css">
 
   <script>
     var theme = {
@@ -100,6 +102,10 @@
   <!-- New Added JS file -->
   <script src="{{ 'new-js.js' | asset_url }}" defer="defer"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+  {% if template contains 'product' %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  {% endif %}
   
   {{ content_for_header }}
 </head>
@@ -165,6 +171,25 @@
             .val(optionValue)
             .trigger('change');
         });
+        
+        jQuery('.rte img').not('a > img').each(function() {
+          // Matching images that aren't already shown in their original size.
+          var re = /(_small)|(_compact)|(_medium)|(_large)|(_grande)/;
+          var src = jQuery(this).attr('src');
+          if (re.test(src)) {
+            // Determining the URL to the original image.
+            var href = src.replace(re, '');
+            // Activating lightbox.
+            jQuery(this).wrap('<a></a>')
+              .parent()
+              .attr('href', href)
+              .addClass('lightbox')
+              .fancybox({
+                'hideOnContentClick': true
+                });
+          }
+        });
+        
       });
       </script>  
 </body>

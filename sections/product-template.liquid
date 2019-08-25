@@ -42,9 +42,32 @@
   {% endcase %}
 
   <div class="grid product-single{% if section.settings.enable_payment_button %} product-single--{{ section.settings.image_size }}-image{% endif %}">
+    
+    <!--Breadcrumb for Mobile Device - Start -->
+      <div class="clearfix breadcrumb product_breadcrumb">
+          <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="url"><span itemprop="title">Home</span></a></span> 
+          /
+          <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+            {% if collection %}
+              <a href="{{ collection.url }}" title="{{ collection.title | escape }}">{{ collection.title }}</a>
+            {% else %}
+              <a href="/collections/all" title="All Products">Products</a>
+            {% endif %}
+          </span>
+          /
+          <strong>{{ product.title }}</strong>
+      </div>
+    <!--Breadcrumb for Mobile Device - End -->
+
+    <!--Sale Icon for mobile device - Start-->
+    <div class="price-item__label-new mobile">
+      <div>{{ 'products.product.on_sale' | t }}</div>
+    </div>
+    <!--Sale Icon for mobile device - End-->
+
     <div class="grid__item product-single__photos {{ product_image_width }}{% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}">
       
-      <!--Move thumbnail start -->
+      <!--Images Thumbnail start -->
       {% if product.images.size > 1 %}
       {% if product.images.size > 3 %}
         {%- assign enable_thumbnail_slides = true -%}
@@ -60,7 +83,7 @@
         <ul class="grid grid--uniform product-single__thumbnails product-single__thumbnails-{{ section.id }}">
           {% for image in product.images %}
             <li class="grid__item {{ product_thumbnail_width }} product-single__thumbnails-item js">
-              <a href="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"
+              <a  data-fancybox="gallery" href="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"
                 class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
                 data-thumbnail-id="{{ image.id }}"
                 {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
@@ -77,7 +100,7 @@
         {% endif %}
       </div>
       {% endif %}
-      <!--Move thumbnail end -->      
+      <!--Images Thumbnail End -->
       
       
       
@@ -110,6 +133,9 @@
           </div>
         </div>
       {% endfor %}
+      <div class="full-screen text-right"><a data-fancybox-trigger="gallery" href="javascript:;">
+          {% include 'icon-full-screen-new' %}
+      </div>
 
       <noscript>
         {% capture product_image_size %}{{ height }}x{% endcapture %}
@@ -123,9 +149,11 @@
       <div class="product-single__meta">
         <div class="wishlist-div"><a href="#">{% include 'icon-heart-new' %}</a></div>
 
-        <div class="price-item__label-new">
+        <!--Sale Icon for desktop device-->
+        <div class="price-item__label-new desktop">
           <div>{{ 'products.product.on_sale' | t }}</div>
         </div>
+
         <h1 class="product-single__title">{{ product.title }}</h1>
         {% assign subtitle = subtitle | default: product.description | split: "<h6>" | first %}
         <div class="product-subtitle">{{ subtitle }}</div>

@@ -9,6 +9,46 @@ $break_point_small:480px;
 body{
   color:$main_color_black;
 }
+.product-template__container.page-width{
+  padding: 0px;
+  >.product-single, >.product-single__description{
+    padding: 22px;
+  }
+  @media only screen and (min-width:$break_point_large){
+    >.product-single, >.product-single__description{
+      padding: 55px;
+    }
+  }
+}
+// h1{
+//   font-family: acumin-pro-extra-condensed, sans-serif;
+//   font-style: normal;
+//   font-weight: 700;
+//   font-size:120px;
+//   letter-spacing:-0.75px;
+//   line-height:100px;
+// }
+// h2{
+//   font-family: acumin-pro-extra-condensed, sans-serif;
+//   font-style: normal;
+//   font-weight: 700;
+//   font-family: AcuminProExtraCond-Bold;
+//   font-size:60px;
+//   letter-spacing:0;
+//   line-height:50px;
+// }
+// h3{
+//   font-family: NeueHaasUnicaW1G-Bold;
+//   font-size:40px;
+//   letter-spacing:0;
+//   line-height:48px;
+// }
+
+
+// @media (max-width : $break_point_small) {
+
+// }
+
 
 //Header Style - General
 #shopify-section-header{
@@ -22,12 +62,24 @@ body{
         width: 30px;
         vertical-align: middle;
     }
+    //When screensize less than 750px
+    @media only screen and (max-width: $break_point_medium){
+      .site-header__account{
+          display:none;
+      }
+    }
     
 }
 
 //Header Style - When theme setting is Logo Align Centre
 .site-header.logo--center{
   padding: 10px!important;
+  .site-header__logo{
+    text-align: center!important;
+    a img{
+      margin:auto auto;
+    }
+  }
   ul.site-nav{
       padding-bottom: 0px;
       text-align: left;
@@ -45,6 +97,19 @@ body{
           min-height: 38px;
       }
   }
+  .site-header__search.site-header__icon{
+    display:block;
+  }
+  @media screen and (max-width: $break_point_medium){
+    .site-header__search.site-header__icon{
+      button{
+        display:contents;
+      }
+      input{
+        display:none;
+      }
+    }
+  }
 
 }
 
@@ -56,7 +121,7 @@ body{
 //Product Page Style
 #shopify-section-product-template{
         
-        //Left Section of product page, including Images, Thumbnail etc.
+        //Left Section: product page, including Images, Thumbnail etc.
         .page-width{
             max-width: 100%;
         }
@@ -66,6 +131,13 @@ body{
         .active-thumb .product-single__thumbnail-image {
             border-color:$main_color_black;
         }
+        .full-screen{
+          display:none;
+        }
+        .product-single__description{
+          background-color: #ffffff;
+        }
+        //Left Section: When screensize more than 750px
         @media screen and (min-width: $break_point_medium){
             .product-single__photos {
                 padding: 50px;
@@ -82,9 +154,35 @@ body{
                 max-width: initial!important;
                 max-height: initial!important;        
             }
+            .product_breadcrumb{
+              display:none;
+            }
+            .full-screen{
+              display:block;
+              svg{
+                width: 22px;
+                height: 22px;
+                margin-top: 15px;
+              }
+            }
+        }
+        //Left Section: When screensize less than 750px
+        @media only screen and (max-width: $break_point_medium){
+          .product-single__photos {
+            display: flex;
+            flex-direction: column-reverse;
+          }
+          .product_breadcrumb{
+            font-size: 0.8em;
+            padding: 0 21px;
+            color:#8c8c8c;
+            a{
+              color:#8c8c8c;
+            }
+          }
         }
 
-        //Right Section of product page, including Title, Price, Option etc.
+        //Right Section: product page, including Title, Price, Option etc.
         .product-single__title, .product-subtitle *{
             color:$main_color_black;
         }
@@ -97,7 +195,6 @@ body{
             max-width: 38px;
             position: absolute;
             right: 15px;
-            top: 25px;
           }
         }
         .product-form__cart-submit:not([disabled]):hover, .product-form__cart-submit:focus {
@@ -132,18 +229,8 @@ body{
               height: 30px;
             }
         }
+        //Right Section: Sale Icon
 
-        @media screen and (min-width: $break_point_large){
-            .product-single__title {
-                font-size: 4rem;            
-            }
-            .product__price, .featured-product__price {
-                font-size: 2.2rem;
-            }
-        }
-        .price-item__label{
-            display:none;
-        }
         .price-item__label-new{
             margin: 10px;
             transform: skew(-20deg);
@@ -158,6 +245,24 @@ body{
         .price-item__label-new div{
             transform: skew(20deg);
         }
+        .mobile.price-item__label-new{
+            display:none;
+        }
+        //Right Section: When screensize less than 480px
+        @media only screen and (max-width: $break_point_medium){
+          .desktop.price-item__label-new{
+            display:none;
+          }
+          .mobile.price-item__label-new{
+            display: block;
+            margin: 10px 28px;
+            width: 95px;
+            padding: 1px 10px;
+            font-size: 1em;
+          }
+
+        }
+
         .product-form-product-template .product-form__item{
             flex:100%;
         }
@@ -171,6 +276,15 @@ body{
           min-height: 25px;
           font-weight: 600;
         }
+        //Right Section: When screensize more than 1500px
+        @media screen and (min-width: $break_point_large){
+            .product-single__title {
+                font-size: 4rem;            
+            }
+            .product__price, .featured-product__price {
+                font-size: 2.2rem;
+            }
+        }
 
 
 }
@@ -178,7 +292,7 @@ body{
 // Product Page, Tabs content Style
 .product-desc-tabs{
     ul.tabs {
-      border-bottom: 1px solid #DDDDDD;
+      border-bottom: 1px solid #000000;
       display: block;
       margin: 0 0 20px;
       padding: 0;
@@ -186,54 +300,27 @@ body{
     ul.tabs li {
       display: block;
       float: left;
-      height: 30px;
       margin-bottom: 0;
-      padding: 0;
+      padding: 0px;
       width: auto;
+      margin-right: 30px;
     }
     ul.tabs li a {
-      -moz-border-bottom-colors: none;
-      -moz-border-image: none;
-      -moz-border-left-colors: none;
-      -moz-border-right-colors: none;
-      -moz-border-top-colors: none;
-      background: none repeat scroll 0 0 #F5F5F5;
-      border-color: #DDDDDD !important;
-      border-style: solid;
-      border-width: 1px 1px 0 1px;
       display: block;
-      font-size: 13px;
-      height: 29px;
-      line-height: 30px;
-      margin: 0;
-      padding: 0 20px;
-      text-decoration: none;
+      line-height: 50px;
+      padding: 10px;
       width: auto;
-      color: #303030;
-      border-bottom:none !important;
+      font-size: 1.3em;
+      color: #000000;
+      font-weight: 600;
+      border-bottom: none;
     }
     ul.tabs li a.active {
-      background: none repeat scroll 0 0 #FFFFFF;
-      border-left-width: 1px;
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
-      color: #111111;
-      height: 30px;
-      margin: 0 0 0 -1px;
-      padding-top: 4px;
       position: relative;
-      top: -4px;
+      border-bottom: 4px solid #000000;
+      font-weight: 800;
     }
-    ul.tabs li:first-child a.active {
-      margin-left: 0;
-    }
-    ul.tabs li:first-child a {
-      border-top-left-radius: 2px;
-      border-width: 1px 1px 0;
-    }
-    ul.tabs li:last-child a {
-      border-top-right-radius: 2px;
-    }
+
     ul.tabs:before, ul.tabs:after {
       content: " ";
       display: block;
@@ -245,6 +332,29 @@ body{
     ul.tabs:after {
       clear: both;
     }
+    @media screen and (max-width: $break_point_medium){
+      ul.tabs{
+        border-bottom: none;
+        li{
+          width: 100%;
+          clear: both;
+          border-bottom: 2px solid #f1f1f1;
+          a{
+            line-height: 30px;
+            padding: 10px;
+            font-size: 1em;
+          }
+          a.active{
+            border-bottom: 2px solid #000000;
+          }
+          a:after{
+            content:"-";
+            float:right;
+          }
+        }
+      }
+    }
+    
   }
 
 
