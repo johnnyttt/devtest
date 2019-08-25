@@ -160,6 +160,7 @@
   </ul>
 
   <script>
+    //jquery code for Color Swatch
       jQuery(function() {
         jQuery('.swatch :radio').change(function() {
           var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
@@ -171,7 +172,8 @@
             .val(optionValue)
             .trigger('change');
         });
-        
+
+     //jquery code for Fancybox
         jQuery('.rte img').not('a > img').each(function() {
           // Matching images that aren't already shown in their original size.
           var re = /(_small)|(_compact)|(_medium)|(_large)|(_grande)/;
@@ -189,7 +191,7 @@
                 });
           }
         });
-        
+
       });
       </script>  
 </body>

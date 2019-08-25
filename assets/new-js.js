@@ -1,3 +1,4 @@
+//jquery code for product description tab content.
 document.addEventListener( 'DOMContentLoaded', function () {
     $('ul.tabs').each(function(){
       var active, content, links = $(this).find('a');
